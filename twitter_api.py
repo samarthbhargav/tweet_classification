@@ -15,10 +15,24 @@ from tweepy.streaming import StreamListener
 from config import TwitterConfig
 import json
 #setting up the keys
-twitter_conf = TwitterConfig()
+
+class _TwitterConfig(object):
+    __auth = None
+    @classmethod
+    def get_auth(cls):
+
+        if cls.__auth is None:
+            twitter_conf = TwitterConfig()
+            cls.__auth = OAuthHandler(twitter_conf.consumer_key, twitter_conf.consumer_secret)
+            cls.__auth.set_access_token(twitter_conf.access_token, twitter_conf.access_secret)
+        return cls.__auth
+
+
 class TweetListener(StreamListener):
-    # A listener handles tweets are the received from the stream.
-    #This is a basic listener that just prints received tweets to standard output
+
+    def __init__(self, *args, **kwargs):
+        super(TweetListener, self).__init__(*args, **kwargs)
+        self.__tweets = []
 
     def on_data(self, data):
         js = json.loads(data, encoding="utf-8")
@@ -48,9 +62,7 @@ class ShortTweetStream(TweetStream):
         pass
 
 if __name__ == "__main__":
-    auth = OAuthHandler(twitter_conf.consumer_key, twitter_conf.consumer_secret)
-    auth.set_access_token(twitter_conf.access_token, twitter_conf.access_secret)
-
-    stream = Stream(auth, TweetListener())
-    print stream.filter(track=['india'])
+    #stream = Stream(auth, TweetListener())
+    #print stream.filter(track=['india'])
     #api = tweepy.API(auth)
+    pass
