@@ -4,6 +4,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
+
 class TweetClassifier(object):
 
     def __init__(self):
@@ -37,6 +38,7 @@ class TweetClassifier(object):
         vector = self._vectorizer.transform([data])
         return self._classifier.predict(vector)
 
+
+
 if __name__ == "__main__":
     clf = TweetClassifier()
-
