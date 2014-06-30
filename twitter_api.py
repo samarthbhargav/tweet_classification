@@ -30,31 +30,45 @@ class _TwitterConfig(object):
 
 class TweetListener(StreamListener):
 
-    def __init__(self, *args, **kwargs):
-        super(TweetListener, self).__init__(*args, **kwargs)
-        self.__tweets = []
+    def __init__(self, api):
+        self.api = api
+        super(StreamListener, self).__init__()
+        self._tweets = []
 
     def on_data(self, data):
         js = json.loads(data, encoding="utf-8")
-        print js['text'].encode('ascii', 'ignore')
+        self._tweets.append(js['text'].encode('ascii', 'ignore'))
         return True
 
     def on_error(self, status):
         print status
-
+        exit(-1)
 
 class TweetStream(object):
 
-    def __init__(self, stream):
-        self.__stream = stream
+    def __init__(self,auth_obj,stream_name):
+        self.__stream = Stream(auth_obj, TweetListener())
+        self.__stream_name = stream_name
+        self.__complete = False
 
+    def start_stream(self):
+        self.__complete = False
+        self.__stream.filter(track=[self.__stream_name])
 
     def kill(self):
-        pass
+        self.__complete = True
+        self.__stream.disconnect()
 
     def get_tweets(self):
-        pass
+        return self.__stream._tweets
 
+    @property
+    def is_complete(self):
+        return self.__complete
+
+    @property
+    def num_tweets(self):
+        return len(self.__stream._tweets)
 
 class ShortTweetStream(TweetStream):
 
@@ -62,7 +76,6 @@ class ShortTweetStream(TweetStream):
         pass
 
 if __name__ == "__main__":
-    #stream = Stream(auth, TweetListener())
-    #print stream.filter(track=['india'])
-    #api = tweepy.API(auth)
-    pass
+    ts = TweetStream(_TwitterConfig.get_auth,'india')
+    print ts.num_tweets
+
