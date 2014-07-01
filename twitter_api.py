@@ -13,11 +13,11 @@ from tweepy.streaming import StreamListener
 import tweepy
 from config import TwitterConfig
 import json
-import time
 #setting up the keys
 
-class _TwitterConfig(object):
+class TwitterHelper(object):
     __auth = None
+    __api = None
     @classmethod
     def get_auth(cls):
 
@@ -26,6 +26,19 @@ class _TwitterConfig(object):
             cls.__auth = OAuthHandler(twitter_conf.consumer_key, twitter_conf.consumer_secret)
             cls.__auth.set_access_token(twitter_conf.access_token, twitter_conf.access_secret)
         return cls.__auth
+
+    @classmethod
+    def get_api(cls):
+        if cls.__api is None:
+            cls.__api = tweepy.API(TwitterHelper.get_auth())
+        return cls.__api
+
+    @classmethod
+    def get_stream(cls, limit):
+        api = cls.get_api()
+        auth = cls.get_auth()
+        stream = tweepy.Stream(auth, TweetListener(api, limit))
+        return stream
 
 
 class TweetListener(StreamListener):
@@ -38,7 +51,10 @@ class TweetListener(StreamListener):
 
     def on_data(self, data):
         js = json.loads(data, encoding="utf-8")
-        self._tweets.append(js['text'].encode('ascii', 'ignore'))
+        if 'text' in js.keys():
+            self._tweets.append(js['text'].encode('ascii', 'ignore'))
+        else:
+            return True
         if len(self._tweets) < self._limit:
             return True
         else:
@@ -48,11 +64,13 @@ class TweetListener(StreamListener):
         print status
         exit(-1)
 
+    @property
+    def num_tweets(self):
+        return len(self._tweets)
 
+    @property
+    def tweets(self):
+        return self._tweets
 
 if __name__ == "__main__":
-    auth = _TwitterConfig.get_auth()
-    api = tweepy.API(auth)
-    stream = tweepy.Stream(auth, TweetListener(api, 10))
-
-    stream.filter(track=['india'])
+    pass
