@@ -1,4 +1,4 @@
-tweet_classification <WIP>
+tweet_classification (WIP)
 ====================
 An Attempt to perform simple classification on Tweets that is fetched from a tweet stream. 
 
