@@ -24,3 +24,9 @@ To create training data, run the dump_tweets.py with the stream names as argumen
 to get streams of ‘basketball’ and ‘football’, you type:
 
 `python dump_tweets.py basketball football`
+
+Citations
+----------------------------
+I referred the following sources 
+**tweepy : http://sachithdhanushka.blogspot.in/2014/02/mining-twitter-data-using-python.html** 
+**SCOWL : http://wordlist.aspell.net/**
