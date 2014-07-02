@@ -30,4 +30,3 @@ Citations
 I referred the following sources 
 
 - tweepy : http://sachithdhanushka.blogspot.in/2014/02/mining-twitter-data-using-python.html
-- SCOWL : http://wordlist.aspell.net/
