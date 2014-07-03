@@ -28,5 +28,5 @@ to get streams of ‘basketball’ and ‘football’, you type:
 Citations
 ----------------------------
 I referred the following sources 
-**tweepy : http://sachithdhanushka.blogspot.in/2014/02/mining-twitter-data-using-python.html** 
-**SCOWL : http://wordlist.aspell.net/**
+
+- tweepy : http://sachithdhanushka.blogspot.in/2014/02/mining-twitter-data-using-python.html
