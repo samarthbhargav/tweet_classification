@@ -67,6 +67,12 @@ class Dictionary(object):
 
 
 if __name__ == "__main__":
+
+    def sep():
+        print "\n"
+        print "".join("#" for i in range(70))
+        print "\n"
+
     text = "where's is the largest monkey in the world?find out you git! \nat http://t.co/monkey  hello@gmail.com "
     print "Original Text:\n", text
     text = TweetCleaner.remove_stop_words(text)
@@ -79,11 +85,12 @@ if __name__ == "__main__":
     print "\nAfter Removing 2 letter words:\n", text
 
 
+    sep()
     text = "where's is the largest monkey in the world?find out you git! \nat http://t.co/monkey  hello@gmail.com "
     print "Original Text:\n", text
     print "One Go Processing:\n", TweetCleaner.process(text)
 
-    print "".join('#' for i in range(50))
+    sep()
     print "Testing Dictionary"
     words = Dictionary.get_dict()
     print "Loaded {} words".format(len(words))

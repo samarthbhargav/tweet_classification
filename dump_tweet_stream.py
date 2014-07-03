@@ -18,7 +18,7 @@ if __name__ == "__main__":
         with open(cl+'.csv', 'w') as write:
             tweets = streams[cl].listener.tweets
             for tweet in tweets: # todo preprocessing
-                tweet = TweetCleaner.strip_special_chars(tweet)
+                tweet = TweetCleaner.process(tweet)
                 write.write('{},\"{}\"\n'.format(cl, tweet))
         print "Writing to file complete"
 
