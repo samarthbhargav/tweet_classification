@@ -72,5 +72,42 @@ class TweetListener(StreamListener):
     def tweets(self):
         return self._tweets
 
+# source : https://gist.github.com/yanofsky/5436496
+class TweetGetter(object):
+
+    @staticmethod
+    def get_n_tweets_by_user(screen_name, n):
+
+        def conv_to_text_vec(status_list):
+            return [status.text.encode('ascii','ignore') for status in status_list]
+
+        alltweets = []
+        max_tweets = 200 # this is the API limit
+        api = TwitterHelper.get_api()
+
+        if n < max_tweets:
+            return conv_to_text_vec(api.user_timeline(screen_name = screen_name,count=n))
+
+        new_tweets = api.user_timeline(screen_name = screen_name,count=max_tweets)
+
+        alltweets.extend( new_tweets )
+        oldest = alltweets[-1].id - 1
+
+        while len(new_tweets) > 0:
+            new_tweets = api.user_timeline(screen_name = screen_name, count = max_tweets, max_id = oldest)
+            alltweets.extend(new_tweets)
+
+            if len(alltweets) > n:
+                return conv_to_text_vec(alltweets)[:n]
+
+            oldest = alltweets[-1].id - 1
+
+
 if __name__ == "__main__":
-    pass
+
+    # tests for Tweetgetter
+    screen_name = 'nba'
+    tweets = TweetGetter.get_n_tweets_by_user(screen_name, 1000)
+
+    print "Got {} tweets from user {}:\n{}".format(len(tweets), screen_name, "\n".join(tweets))
+    print "\n\n", len(tweets)
