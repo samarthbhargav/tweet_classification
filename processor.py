@@ -44,9 +44,11 @@ class TweetCleaner(object):
 
     @staticmethod
     def process(text):
+        conf = Config()
         text = text.lower()
         text = TweetCleaner.strip_special_chars(text)
         text = TweetCleaner.remove_stop_words(text)
+        text = TweetCleaner.remove_n_letter_chars(text, conf.minimum_word_length)
         return text
 
 class Dictionary(object):
@@ -60,7 +62,7 @@ class Dictionary(object):
             with open(conf.dict_file_path, 'r') as read:
                 for line in read:
                     word = line.strip()
-                    if len(word) >= conf.mininum_word_length:
+                    if len(word) >= conf.minimum_dict_word_length:
                         words.append(word.lower())
             Dictionary.__dict = words
         return Dictionary.__dict
@@ -94,3 +96,9 @@ if __name__ == "__main__":
     print "Testing Dictionary"
     words = Dictionary.get_dict()
     print "Loaded {} words".format(len(words))
+
+    sep()
+    print "Testing Configured Letter Removal"
+    text = "where's is the largest monkey in the world?find out you git! \nat http://t.co/monkey  hello@gmail.com "
+    conf = Config()
+    print "Removing <= {} letter words:\n{}".format(conf.minimum_word_length, TweetCleaner.remove_n_letter_chars(text, conf.minimum_word_length))

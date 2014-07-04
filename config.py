@@ -5,7 +5,8 @@ import _config
 
 config = {
     'DICT_FILE' : 'words.txt',
-    'MIN_WORD_LEN' : 2
+    'MIN_WORD_LEN' : 1 ,
+    'MIN_DICT_WORD_LEN' : 2
 }
 
 class Config(object):
@@ -22,9 +23,12 @@ class Config(object):
         return self.get_property('DICT_FILE')
 
     @property
-    def mininum_word_length(self):
+    def minimum_word_length(self):
         return self.get_property('MIN_WORD_LEN')
 
+    @property
+    def minimum_dict_word_length(self):
+        return self.get_property('MIN_DICT_WORD_LEN')
 
 class TwitterConfig(Config):
 
@@ -45,3 +49,8 @@ class TwitterConfig(Config):
         return self.get_property('access_secret')
 
 
+if __name__ == "__main__":
+    print "Testing Config"
+    conf = Config()
+    print conf.minimum_dict_word_length
+    print conf.minimum_word_length

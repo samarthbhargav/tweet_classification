@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 
-class TweetClassifier(object):
+class Classifier(object):
 
     def __init__(self):
         self._classifier = MultinomialNB()
@@ -41,4 +41,4 @@ class TweetClassifier(object):
 
 
 if __name__ == "__main__":
-    clf = TweetClassifier()
+    clf = Classifier()
