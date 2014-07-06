@@ -1,10 +1,10 @@
-import twitter_api
-
+import abc
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 class TextClassifier(object):
+    __metaclass__ = abc.ABCMeta
 
     def __init__(self):
         self._corpus = None
@@ -24,19 +24,20 @@ class TextClassifier(object):
             self._corpus = []
         self._corpus.append(to_append)
 
-
+    @abc.abstractmethod
     def train(self, train_data, train_labels):
-        raise Exception("Not Implemented in Abstract Base Class")
+        raise Exception("Abstract Class : Not Implemented")
+
+    @abc.abstractmethod
+    def predict(self, data):
+        raise Exception("Abstract Class : Not Implemented")
 
 
-
-class BayesClassifier(object):
+class BayesClassifier(TextClassifier):
 
     def __init__(self):
+        super(BayesClassifier, self).__init__()
         self._classifier = MultinomialNB()
-        self._corpus = None
-        self._vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', analyzer="word")
-
 
     def train(self, train_data, train_labels):
         if self._corpus is None:
@@ -51,7 +52,10 @@ class BayesClassifier(object):
 
 
 class SVMClassifier(object):
-    pass
+
+    def __init__(self):
+        super(SVMClassifier, self).__init__()
+        self._classifier = MultinomialNB() # todo
 
 if __name__ == "__main__":
-    clf = Classifier()
+    clf = BayesClassifier()

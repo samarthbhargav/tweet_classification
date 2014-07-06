@@ -23,7 +23,7 @@ def process_file(filename):
 
 if __name__ == "__main__":
 
-    from classify import Classifier
+    from classify import BayesClassifier
     filenames = get_csv_file_names()
 
     if len(filenames) == 0:
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     target = np.array(target)
     dataset = np.array(dataset)
 
-    clf = Classifier()
+    clf = BayesClassifier()
     split_perc = 0.66
 
     # todo shuffle
