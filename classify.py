@@ -57,5 +57,17 @@ class SVMClassifier(object):
         super(SVMClassifier, self).__init__()
         self._classifier = MultinomialNB() # todo
 
+    def train(self, train_data, train_labels):
+        if self._corpus is None:
+            raise Exception("Corpus is not set")
+        self._vectorizer.fit(self._corpus)
+        train_vectors = self._vectorizer.transform(train_data)
+        self._classifier.fit(train_vectors, train_labels)
+
+    def predict(self, data):
+        vector = self._vectorizer.transform([data])
+        return self._classifier.predict(vector)
+
+
 if __name__ == "__main__":
     clf = BayesClassifier()
