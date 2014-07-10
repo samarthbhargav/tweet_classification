@@ -1,7 +1,7 @@
 import abc
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from sklearn import svm
 
 class TextClassifier(object):
     __metaclass__ = abc.ABCMeta
@@ -51,11 +51,11 @@ class BayesClassifier(TextClassifier):
         return self._classifier.predict(vector)
 
 
-class SVMClassifier(object):
+class SVMClassifier(TextClassifier):
 
     def __init__(self):
         super(SVMClassifier, self).__init__()
-        self._classifier = MultinomialNB() # todo
+        self._classifier = svm.SVC(kernel='rbf')
 
     def train(self, train_data, train_labels):
         if self._corpus is None:
@@ -70,4 +70,6 @@ class SVMClassifier(object):
 
 
 if __name__ == "__main__":
-    clf = BayesClassifier()
+    bclf = BayesClassifier()
+    sclf = SVMClassifier()
+
