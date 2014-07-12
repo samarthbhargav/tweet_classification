@@ -69,6 +69,17 @@ class SVMClassifier(TextClassifier):
         return self._classifier.predict(vector)
 
 
+class HeirarchialClassifier(TextClassifier):
+
+    def __init__(self):
+        pass
+
+    def train(self, train_data, train_labels):
+        pass
+
+    def predict(self, data):
+        pass
+
 if __name__ == "__main__":
     bclf = BayesClassifier()
     sclf = SVMClassifier()
